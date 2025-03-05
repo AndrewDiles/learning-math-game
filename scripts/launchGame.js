@@ -78,7 +78,7 @@ const createLifeTracker = () => {
   for (let i = 1; i < 4; i++) {
     const life = document.createElement("img");
     life.alt = "Health heart";
-    life.src = "/assets/full-heart.svg";
+    life.src = "./assets/full-heart.svg";
     life.style.height = "1em";
     life.classList.add("full");
     life.id = `life-${i}`;
@@ -138,7 +138,7 @@ const askAQuestion = () => {
         const lifeToChange = lives[lives.length - 1];
         lifeToChange.classList.remove("full");
         lifeToChange.classList.add("empty");
-        lifeToChange.src = "/assets/empty-heart.svg";
+        lifeToChange.src = "./assets/empty-heart.svg";
         if (lives.length === 1) {
           // game over
           document.querySelectorAll(".answer-button").forEach((button) => {
