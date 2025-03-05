@@ -6,7 +6,7 @@ const createExitButton = () => {
   const exitButton = document.createElement("button");
   exitButton.type = "button";
   exitButton.classList.add("menu-button", "exit-button");
-  exitButton.innerText = "✖";
+  exitButton.innerText = "✖"; // ✖×x✕
   exitButton.addEventListener("click", buildMainMenu);
   main.appendChild(exitButton);
 };

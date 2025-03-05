@@ -14,10 +14,10 @@ Game is functional, took about five hours.
 
 Includes 5 build in modes of play:
 
-- counting shapes
-- addition with shapes
+- counting fruit
+- addition with fruit
 - addition with numbers
-- subtraction with shapes
+- subtraction with fruit
 - subtraction with numbers
 
 ---
