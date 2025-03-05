@@ -32,7 +32,7 @@ const initializeSave = () => {
   }
 
   const parsedSave = JSON.parse(savedGame);
-  if (GAME_NAMES.length !== parsedSave.length) {
+  if (GAME_NAMES.length !== parsedSave.length || parsedSave.find(({name}) => !GAME_NAMES.includes(name))) {
     // game extended since last save, update
     const newSave = GAME_NAMES.map((name, level) => {
       const foundLevelRecord = parsedSave.find((level) => level.name === name);

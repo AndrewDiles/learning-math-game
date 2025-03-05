@@ -1,13 +1,5 @@
 import rand from "./rand.js";
 
-export const GAME_NAMES = [
-  "1 2 3 fruit",
-  "+ fruit",
-  "+ numbers",
-  "- fruit",
-  "- numbers",
-];
-
 export const STORAGE_KEY = "math-save";
 
 export const RAINBOW_COLORS = [
@@ -261,3 +253,5 @@ export const GAME_INFO = {
     },
   },
 };
+
+export const GAME_NAMES = Object.keys(GAME_INFO)
