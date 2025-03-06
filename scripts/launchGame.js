@@ -5,7 +5,7 @@ import { updateSaveGame } from "./manage-saved-data.js";
 const createExitButton = () => {
   const exitButton = document.createElement("button");
   exitButton.type = "button";
-  exitButton.classList.add("menu-button", "exit-button");
+  exitButton.classList.add("menu-button", "exit-button", "centered");
   exitButton.innerText = "✖"; // ✖×x✕
   exitButton.addEventListener("click", buildMainMenu);
   main.appendChild(exitButton);
@@ -73,18 +73,37 @@ const createProgressTracker = () => {
   }
 };
 
+const createLifeImage = (optionalId) => {
+	const life = document.createElement("img");
+	life.alt = "Health heart";
+	life.src = "./assets/full-heart.svg";
+	life.style.height = "1em";
+	life.classList.add("full");
+	if (optionalId) life.id = optionalId;
+	return life
+}
+
 const createLifeTracker = () => {
   const lifeContainer = document.createElement("section");
   for (let i = 1; i < 4; i++) {
-    const life = document.createElement("img");
-    life.alt = "Health heart";
-    life.src = "./assets/full-heart.svg";
-    life.style.height = "1em";
-    life.classList.add("full");
-    life.id = `life-${i}`;
-    lifeContainer.appendChild(life);
-    main.appendChild(lifeContainer);
+    lifeContainer.appendChild(createLifeImage(`life-${i}`));
   }
+	main.appendChild(lifeContainer);
+};
+
+const takeAwayLife = (lives) => {
+  const lifeToChange = lives[lives.length - 1];
+	const fadingLife = createLifeImage();
+	fadingLife.classList.add("fading-heart");
+	fadingLife.classList.remove("full");
+	const {x, y} = lifeToChange.getBoundingClientRect();
+	fadingLife.style.left=x+"px";
+	fadingLife.style.top=y+"px";
+	main.appendChild(fadingLife);
+	setTimeout(()=>fadingLife.remove(), 3000);
+  lifeToChange.classList.remove("full");
+  lifeToChange.classList.add("empty");
+  lifeToChange.src = "./assets/empty-heart.svg";
 };
 
 const askAQuestion = () => {
@@ -95,11 +114,11 @@ const askAQuestion = () => {
     gameInfoByName.questionGenerator();
   const questionContainer = document.getElementById("question-container");
   questionContainer.innerHTML = "";
-	if (question) {
-		const query = document.createElement("h3");
-		query.innerText = question;
-		questionContainer.appendChild(query);
-	}
+  if (question) {
+    const query = document.createElement("h3");
+    query.innerText = question;
+    questionContainer.appendChild(query);
+  }
   questionContainer.appendChild(problemContainer);
   const optionsContainer = document.createElement("div");
   optionsContainer.classList.add("options");
@@ -135,10 +154,7 @@ const askAQuestion = () => {
         // incorrect answer
         const lives = document.querySelectorAll(".full");
         answerButton.disabled = true;
-        const lifeToChange = lives[lives.length - 1];
-        lifeToChange.classList.remove("full");
-        lifeToChange.classList.add("empty");
-        lifeToChange.src = "./assets/empty-heart.svg";
+        takeAwayLife(lives);
         if (lives.length === 1) {
           // game over
           document.querySelectorAll(".answer-button").forEach((button) => {
@@ -147,15 +163,15 @@ const askAQuestion = () => {
               button.classList.add("correct");
             }
           });
-					const queryObject = document.querySelector("h3");
-					if (queryObject) {
-						document.querySelector("h3").innerText = "oops";
-					} else {
-						const query = document.createElement("h3");
-						query.innerText = "oops";
-						questionContainer.prepend(query);
-					}
-          
+          const queryObject = document.querySelector("h3");
+          if (queryObject) {
+            document.querySelector("h3").innerText = "oops";
+          } else {
+            const query = document.createElement("h3");
+            query.innerText = "oops";
+            questionContainer.prepend(query);
+          }
+
           questionContainer.appendChild(createTryAgainButton());
           questionContainer.appendChild(createReturnToMenuButton());
         }
