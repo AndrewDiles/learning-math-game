@@ -35,6 +35,9 @@ button {
 button:disabled {
 	cursor: not-allowed;
 	border-color: transparent;
+	color: orangered;
+	opacity: .75;
+	scale: .9;
 }
 button:hover:not(:disabled) {
 	border-color: lime;
@@ -189,6 +192,10 @@ button.exit-button:active {
 	animation: hueShift 2s infinite;
 }
 
+.growing {
+	animation: growing 2s infinite;
+}
+
 /* === ANIMATIONS === */
 
 @keyframes fading {
@@ -200,6 +207,18 @@ button.exit-button:active {
 	}
 	100% {
 		opacity: 1;
+	}
+}
+
+@keyframes growing {
+	0% {
+		scale: 1;
+	}
+	50% {
+		scale: 1.5;
+	}
+	100% {
+		scale: 1;
 	}
 }
 
