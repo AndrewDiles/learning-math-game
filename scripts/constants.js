@@ -2,6 +2,8 @@ import rand from "./rand.js";
 
 export const STORAGE_KEY = "math-save";
 
+export const MAX_STEPS = 2;
+
 export const RAINBOW_COLORS = [
   "#FF0000",
   "#FF4500",

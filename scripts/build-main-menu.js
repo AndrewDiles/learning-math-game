@@ -1,10 +1,10 @@
 import initializeSave from "./manage-saved-data.js";
-import launchGame from "./launchGame.js";
+import launchGame from "./launch-game.js";
 
 const createStar = (obtained)=>{
 	const newStar = document.createElement("img");
 	newStar.alt="Victory star";
-	newStar.src= obtained ? "./assets/full-star.svg":"./assets/star.svg";
+	newStar.src= obtained ? "./assets/full-star.svg":"./assets/star.svg"; // ⭐ ☆
 	newStar.style.height="1em";
 	return newStar
 }

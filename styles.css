@@ -4,7 +4,6 @@
 	font-weight: 900;
 	font-style: normal;
 	text-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px -1px 0 #FFF;
-	vertical-align: middle;
 }
 
 :root {
@@ -185,6 +184,11 @@ button.exit-button:active {
 	z-index: 10;
 }
 
+.rainbow-color {
+	color: lime;
+	animation: hueShift 2s infinite;
+}
+
 /* === ANIMATIONS === */
 
 @keyframes fading {
@@ -234,5 +238,14 @@ button.exit-button:active {
 	100% {
 		transform: rotate(1deg) translate(0,-6.5rem);
 		opacity: 0;
+	}
+}
+
+@keyframes hueShift {
+	0% {
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		filter: hue-rotate(360deg);
 	}
 }

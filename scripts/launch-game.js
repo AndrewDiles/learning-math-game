@@ -1,5 +1,5 @@
-import buildMainMenu from "./buildMainMenu.js";
-import { GAME_INFO, RAINBOW_COLORS } from "./constants.js";
+import buildMainMenu from "./build-main-menu.js";
+import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "./constants.js";
 import { updateSaveGame } from "./manage-saved-data.js";
 
 const createExitButton = () => {
@@ -60,10 +60,12 @@ const createCorrectMessage = (correctValue) => {
 const createProgressTracker = () => {
   // ◉ ○ ◌ ●
   const progressContainer = document.createElement("section");
+  progressContainer.classList.add("centered");
   progressContainer.classList.add("progress");
-  for (let i = 1; i < 11; i++) {
+  for (let i = 1; i <= MAX_STEPS; i++) {
     const step = document.createElement("span");
     step.innerText = i === 1 ? "◌" : "○";
+    step.classList.add("centered");
     if (i === 1) {
       step.classList.add("blinking");
     }
@@ -74,33 +76,33 @@ const createProgressTracker = () => {
 };
 
 const createLifeImage = (optionalId) => {
-	const life = document.createElement("img");
-	life.alt = "Health heart";
-	life.src = "./assets/full-heart.svg";
-	life.style.height = "1em";
-	life.classList.add("full");
-	if (optionalId) life.id = optionalId;
-	return life
-}
+  const life = document.createElement("img"); // ❤️
+  life.alt = "Health heart";
+  life.src = "./assets/full-heart.svg";
+  life.style.height = "1em";
+  life.classList.add("full");
+  if (optionalId) life.id = optionalId;
+  return life;
+};
 
 const createLifeTracker = () => {
   const lifeContainer = document.createElement("section");
   for (let i = 1; i < 4; i++) {
     lifeContainer.appendChild(createLifeImage(`life-${i}`));
   }
-	main.appendChild(lifeContainer);
+  main.appendChild(lifeContainer);
 };
 
 const takeAwayLife = (lives) => {
   const lifeToChange = lives[lives.length - 1];
-	const fadingLife = createLifeImage();
-	fadingLife.classList.add("fading-heart");
-	fadingLife.classList.remove("full");
-	const {x, y} = lifeToChange.getBoundingClientRect();
-	fadingLife.style.left=x+"px";
-	fadingLife.style.top=y+"px";
-	main.appendChild(fadingLife);
-	setTimeout(()=>fadingLife.remove(), 3000);
+  const fadingLife = createLifeImage();
+  fadingLife.classList.add("fading-heart");
+  fadingLife.classList.remove("full");
+  const { x, y } = lifeToChange.getBoundingClientRect();
+  fadingLife.style.left = x + "px";
+  fadingLife.style.top = y + "px";
+  main.appendChild(fadingLife);
+  setTimeout(() => fadingLife.remove(), 3000);
   lifeToChange.classList.remove("full");
   lifeToChange.classList.add("empty");
   lifeToChange.src = "./assets/empty-heart.svg";
@@ -137,10 +139,17 @@ const askAQuestion = () => {
         const stepComplete = Number(currentlyBlinking.id.replace("step-", ""));
         currentlyBlinking.style.color = RAINBOW_COLORS[stepComplete - 1];
         questionContainer.appendChild(createCorrectMessage(option));
-        if (stepComplete === 10) {
+        if (stepComplete === MAX_STEPS) {
           // game won
           const winMessage = document.createElement("p");
-          winMessage.innerText = "you win!";
+					["y","o","u"," ", "w", "i", "n", "!"].forEach((letter, index)=>{
+						const letterSpan = document.createElement("span");
+						letterSpan.innerText = letter;
+						letterSpan.classList.add("rainbow-color");
+						letterSpan.style.animationDelay=`${-200*index}ms`;
+						winMessage.appendChild(letterSpan)
+					})
+          // winMessage.innerText = "you win!";
           questionContainer.appendChild(winMessage);
           questionContainer.appendChild(createTryAgainButton(true));
           questionContainer.appendChild(createReturnToMenuButton());
