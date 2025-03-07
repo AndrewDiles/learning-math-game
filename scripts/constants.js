@@ -1,14 +1,8 @@
 import rand from "./rand.js";
 
-export const GAME_NAMES = [
-  "1 2 3 shapes",
-  "+ shapes",
-  "+ numbers",
-  "- shapes",
-  "- numbers",
-];
-
 export const STORAGE_KEY = "math-save";
+
+export const MAX_STEPS = 10;
 
 export const RAINBOW_COLORS = [
   "#FF0000",
@@ -43,7 +37,7 @@ const fruit = [
 const getRandomFruit = () => fruit[rand(fruit.length - 1)];
 
 export const GAME_INFO = {
-  "1 2 3 shapes": {
+  "1 2 3 fruit": {
     question: "how many",
     optionPatterns: [
       [0, -1, 2, 1],
@@ -52,7 +46,7 @@ export const GAME_INFO = {
       [-1, 2, 1, 0],
     ],
     questionGenerator: () => {
-      const nameOfGame = "1 2 3 shapes";
+      const nameOfGame = "1 2 3 fruit";
       const answer = rand(10, 1);
       const problemContainer = document.createElement("div");
       problemContainer.classList.add("problem");
@@ -77,7 +71,7 @@ export const GAME_INFO = {
       return { answer, problemContainer, options };
     },
   },
-  "+ shapes": {
+  "+ fruit": {
     question: "",
     optionPatterns: [
       [0, -1, 2, 1],
@@ -86,7 +80,7 @@ export const GAME_INFO = {
       [-1, 2, 1, 0],
     ],
     questionGenerator: () => {
-      const nameOfGame = "+ shapes";
+      const nameOfGame = "+ fruit";
       const summand1 = rand(5, 1);
       const summand2 = rand(5, 1);
       const operand = "+";
@@ -157,7 +151,7 @@ export const GAME_INFO = {
       return { answer, problemContainer, options };
     },
   },
-  "- shapes": {
+  "- fruit": {
     question: "",
     optionPatterns: [
       [0, 1, -2, -1],
@@ -166,7 +160,7 @@ export const GAME_INFO = {
       [1, -2, -1, 0],
     ],
     questionGenerator: () => {
-      const nameOfGame = "- shapes";
+      const nameOfGame = "- fruit";
       const initial = rand(10, 2);
       const reduction = rand(initial, 1);
       const answer = initial - reduction;
@@ -261,3 +255,5 @@ export const GAME_INFO = {
     },
   },
 };
+
+export const GAME_NAMES = Object.keys(GAME_INFO)

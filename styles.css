@@ -1,7 +1,7 @@
 *, *::after, *::before {
 	font-size: 1.4rem;
 	font-family: "ABeeZee", sans-serif;
-	font-weight: 700;
+	font-weight: 900;
 	font-style: normal;
 	text-shadow: 1px 1px 0 #FFF, -1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px -1px 0 #FFF;
 }
@@ -35,6 +35,9 @@ button {
 button:disabled {
 	cursor: not-allowed;
 	border-color: transparent;
+	color: orangered;
+	opacity: .75;
+	scale: .9;
 }
 button:hover:not(:disabled) {
 	border-color: lime;
@@ -176,6 +179,23 @@ button.exit-button:active {
 	margin: .25rem;
 }
 
+.fading-heart {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	animation: heartToHeaven 3s ease-in;
+	z-index: 10;
+}
+
+.rainbow-color {
+	color: lime;
+	animation: hueShift 2s infinite;
+}
+
+.growing {
+	animation: growing 2s infinite;
+}
+
 /* === ANIMATIONS === */
 
 @keyframes fading {
@@ -187,6 +207,18 @@ button.exit-button:active {
 	}
 	100% {
 		opacity: 1;
+	}
+}
+
+@keyframes growing {
+	0% {
+		scale: 1;
+	}
+	50% {
+		scale: 1.5;
+	}
+	100% {
+		scale: 1;
 	}
 }
 
@@ -205,5 +237,34 @@ button.exit-button:active {
 	}
 	100% {
 		transform: rotate(0deg);
+	}
+}
+
+@keyframes heartToHeaven {
+	0% {
+		opacity: 1;
+		transform: rotate(0deg) translate(0,0);
+	}
+	30% {
+		transform: rotate(5deg) translate(.25rem,-2rem);
+	}
+	60% {
+		transform: rotate(-4deg) translate(-.2rem,-4rem);
+	}
+	90% {
+		transform: rotate(3deg) translate(.1rem,-6rem);
+	}
+	100% {
+		transform: rotate(1deg) translate(0,-6.5rem);
+		opacity: 0;
+	}
+}
+
+@keyframes hueShift {
+	0% {
+		filter: hue-rotate(0deg);
+	}
+	100% {
+		filter: hue-rotate(360deg);
 	}
 }

@@ -1,5 +1,3 @@
-import buildMainMenu from "./buildMainMenu.js";
+import buildMainMenu from "./build-main-menu.js";
 
 buildMainMenu()
-
-// ⭐ ☆ ❤️

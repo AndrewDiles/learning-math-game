@@ -10,14 +10,14 @@ I believe I can build a better one in a few hours.
 
 ## Version 1.0 Notes:
 
-Game is functional, took about five hours.
+Game is functional after about five hours. Took about another two making small tweaks.
 
 Includes 5 build in modes of play:
 
-- counting shapes
-- addition with shapes
+- counting fruit
+- addition with fruit
 - addition with numbers
-- subtraction with shapes
+- subtraction with fruit
 - subtraction with numbers
 
 ---

@@ -1,12 +1,12 @@
-import buildMainMenu from "./buildMainMenu.js";
-import { GAME_INFO, RAINBOW_COLORS } from "./constants.js";
+import buildMainMenu from "./build-main-menu.js";
+import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "./constants.js";
 import { updateSaveGame } from "./manage-saved-data.js";
 
 const createExitButton = () => {
   const exitButton = document.createElement("button");
   exitButton.type = "button";
-  exitButton.classList.add("menu-button", "exit-button");
-  exitButton.innerText = "✖";
+  exitButton.classList.add("menu-button", "exit-button", "centered");
+  exitButton.innerText = "✖"; // ✖×x✕
   exitButton.addEventListener("click", buildMainMenu);
   main.appendChild(exitButton);
 };
@@ -60,10 +60,12 @@ const createCorrectMessage = (correctValue) => {
 const createProgressTracker = () => {
   // ◉ ○ ◌ ●
   const progressContainer = document.createElement("section");
+  progressContainer.classList.add("centered");
   progressContainer.classList.add("progress");
-  for (let i = 1; i < 11; i++) {
+  for (let i = 1; i <= MAX_STEPS; i++) {
     const step = document.createElement("span");
     step.innerText = i === 1 ? "◌" : "○";
+    step.classList.add("centered");
     if (i === 1) {
       step.classList.add("blinking");
     }
@@ -73,35 +75,26 @@ const createProgressTracker = () => {
   }
 };
 
+const createLifeImage = (optionalId) => {
+  const life = document.createElement("img"); // ❤️
+  life.alt = "Health heart";
+  life.src = "./assets/full-heart.svg";
+  life.style.height = "1em";
+  life.classList.add("full");
+  if (optionalId) life.id = optionalId;
+  return life;
+};
+
 const createLifeTracker = () => {
   const lifeContainer = document.createElement("section");
   for (let i = 1; i < 4; i++) {
-    const life = document.createElement("img");
-    life.alt = "Health heart";
-    life.src = "/assets/full-heart.svg";
-    life.style.height = "1em";
-    life.classList.add("full");
-    life.id = `life-${i}`;
-    lifeContainer.appendChild(life);
-    main.appendChild(lifeContainer);
+    lifeContainer.appendChild(createLifeImage(`life-${i}`));
   }
+  main.appendChild(lifeContainer);
 };
 
-const askAQuestion = () => {
-  const gameName = heading.innerText;
-  const gameInfoByName = GAME_INFO[gameName];
-  const { question } = gameInfoByName;
-  const { answer, problemContainer, options } =
-    gameInfoByName.questionGenerator();
-  const questionContainer = document.getElementById("question-container");
-  questionContainer.innerHTML = "";
-	if (question) {
-		const query = document.createElement("h3");
-		query.innerText = question;
-		questionContainer.appendChild(query);
-	}
-  questionContainer.appendChild(problemContainer);
-  const optionsContainer = document.createElement("div");
+const createAnswers = (questionContainer, options, answer) => {
+	const optionsContainer = document.createElement("div");
   optionsContainer.classList.add("options");
   options.forEach((option) => {
     const answerButton = document.createElement("button");
@@ -109,20 +102,17 @@ const askAQuestion = () => {
     answerButton.classList.add("answer-button");
     answerButton.innerText = option;
     answerButton.addEventListener("click", () => {
+			// attempt at answering question from user
       if (option === answer) {
         // correct answer
         optionsContainer.remove();
-        const currentlyBlinking = document.querySelector(".blinking");
-        currentlyBlinking.classList.remove("blinking");
-        currentlyBlinking.innerText = "●";
-        const stepComplete = Number(currentlyBlinking.id.replace("step-", ""));
-        currentlyBlinking.style.color = RAINBOW_COLORS[stepComplete - 1];
+        const stepComplete = manageProgressAndGetStep();
         questionContainer.appendChild(createCorrectMessage(option));
-        if (stepComplete === 10) {
+        if (stepComplete === MAX_STEPS) {
           // game won
-          const winMessage = document.createElement("p");
-          winMessage.innerText = "you win!";
-          questionContainer.appendChild(winMessage);
+          removeQuestion();
+          convertHeartsToStars();
+          questionContainer.appendChild(createWinMessage());
           questionContainer.appendChild(createTryAgainButton(true));
           questionContainer.appendChild(createReturnToMenuButton());
           document.querySelector(".exit-button").remove();
@@ -135,10 +125,7 @@ const askAQuestion = () => {
         // incorrect answer
         const lives = document.querySelectorAll(".full");
         answerButton.disabled = true;
-        const lifeToChange = lives[lives.length - 1];
-        lifeToChange.classList.remove("full");
-        lifeToChange.classList.add("empty");
-        lifeToChange.src = "/assets/empty-heart.svg";
+        takeAwayLife(lives);
         if (lives.length === 1) {
           // game over
           document.querySelectorAll(".answer-button").forEach((button) => {
@@ -147,15 +134,14 @@ const askAQuestion = () => {
               button.classList.add("correct");
             }
           });
-					const queryObject = document.querySelector("h3");
-					if (queryObject) {
-						document.querySelector("h3").innerText = "oops";
-					} else {
-						const query = document.createElement("h3");
-						query.innerText = "oops";
-						questionContainer.prepend(query);
-					}
-          
+          const queryObject = document.querySelector("h3");
+          if (queryObject) {
+            queryObject.innerText = "oops";
+          } else {
+            const query = document.createElement("h3");
+            query.innerText = "oops";
+            questionContainer.prepend(query);
+          }
           questionContainer.appendChild(createTryAgainButton());
           questionContainer.appendChild(createReturnToMenuButton());
         }
@@ -163,7 +149,77 @@ const askAQuestion = () => {
     });
     optionsContainer.appendChild(answerButton);
   });
-  questionContainer.appendChild(optionsContainer);
+	return optionsContainer
+}
+
+const takeAwayLife = (lives) => {
+  const lifeToChange = lives[lives.length - 1];
+  const fadingLife = createLifeImage();
+  fadingLife.classList.add("fading-heart");
+  fadingLife.classList.remove("full");
+  const { x, y } = lifeToChange.getBoundingClientRect();
+  fadingLife.style.left = x + "px";
+  fadingLife.style.top = y + "px";
+  main.appendChild(fadingLife);
+  setTimeout(() => fadingLife.remove(), 3000);
+  lifeToChange.classList.remove("full");
+  lifeToChange.classList.add("empty");
+  lifeToChange.src = "./assets/empty-heart.svg";
+};
+
+const manageProgressAndGetStep = () => {
+  const currentlyBlinking = document.querySelector(".blinking");
+  currentlyBlinking.classList.remove("blinking");
+  currentlyBlinking.innerText = "●";
+  const stepComplete = Number(currentlyBlinking.id.replace("step-", ""));
+  currentlyBlinking.style.color = RAINBOW_COLORS[stepComplete - 1];
+  return stepComplete;
+};
+
+const removeQuestion = () => {
+  const query = document.querySelector("h3");
+  if (query) query.remove();
+};
+
+const createWinMessage = () => {
+  const winMessage = document.createElement("p");
+  ["y", "o", "u", " ", "w", "i", "n", "!"].forEach((letter, index) => {
+    const letterSpan = document.createElement("span");
+    letterSpan.innerText = letter;
+    letterSpan.classList.add("rainbow-color");
+    letterSpan.style.animationDelay = `${-200 * index}ms`;
+    winMessage.appendChild(letterSpan);
+  });
+  return winMessage;
+};
+
+const convertHeartsToStars = () => {
+  [".full", ".empty"].forEach((heartClass) => {
+    document.querySelectorAll(heartClass).forEach((heart) => {
+      heart.alt = "Victory star";
+      heart.src =
+        heartClass === ".full" ? "./assets/full-star.svg" : "./assets/star.svg";
+      heart.style.height = "1em";
+      heart.classList.add("growing");
+    });
+  });
+};
+
+const askAQuestion = () => {
+  const gameName = heading.innerText;
+  const gameInfoByName = GAME_INFO[gameName];
+  const { question } = gameInfoByName;
+  const { answer, problemContainer, options } =
+    gameInfoByName.questionGenerator();
+  const questionContainer = document.getElementById("question-container");
+  questionContainer.innerHTML = "";
+  if (question) {
+    const query = document.createElement("h3");
+    query.innerText = question;
+    questionContainer.appendChild(query);
+  }
+  questionContainer.appendChild(problemContainer);
+	questionContainer.appendChild(createAnswers(questionContainer, options, answer))
 };
 
 const launchGame = (gameName = heading.innerText) => {
