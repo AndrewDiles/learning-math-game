@@ -8,6 +8,19 @@ I believe I can build a better one in a few hours.
 
 ---
 
+## Version 1.1 Notes:
+
+Added more features:
+
+- Session storage based prevention of back to back duplicate questions.
+- Multiplication (0 to 5)
+- Addition with larger numbers
+- Subtraction with larger numbers
+
+Took just shy of an hour.
+
+---
+
 ## Version 1.0 Notes:
 
 Game is functional after about five hours. Took about another two making small tweaks.

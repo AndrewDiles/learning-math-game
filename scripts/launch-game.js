@@ -1,6 +1,7 @@
+import backToBackQuestion from "./back-to-back-question.js";
 import buildMainMenu from "./build-main-menu.js";
 import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "./constants.js";
-import { updateSaveGame } from "./manage-saved-data.js";
+import { sessionSaveQuery, updateSaveGame } from "./manage-saved-data.js";
 
 const createExitButton = () => {
   const exitButton = document.createElement("button");
@@ -134,13 +135,13 @@ const createAnswers = (questionContainer, options, answer) => {
               button.classList.add("correct");
             }
           });
-          const queryObject = document.querySelector("h3");
-          if (queryObject) {
-            queryObject.innerText = "oops";
+          const queryMessage = document.querySelector("h3");
+          if (queryMessage) {
+            queryMessage.innerText = "oops";
           } else {
-            const query = document.createElement("h3");
-            query.innerText = "oops";
-            questionContainer.prepend(query);
+            const queryMessage = document.createElement("h3");
+            queryMessage.innerText = "oops";
+            questionContainer.prepend(queryMessage);
           }
           questionContainer.appendChild(createTryAgainButton());
           questionContainer.appendChild(createReturnToMenuButton());
@@ -177,8 +178,8 @@ const manageProgressAndGetStep = () => {
 };
 
 const removeQuestion = () => {
-  const query = document.querySelector("h3");
-  if (query) query.remove();
+  const queryMessage = document.querySelector("h3");
+  if (queryMessage) queryMessage.remove();
 };
 
 const createWinMessage = () => {
@@ -209,8 +210,12 @@ const askAQuestion = () => {
   const gameName = heading.innerText;
   const gameInfoByName = GAME_INFO[gameName];
   const { question } = gameInfoByName;
-  const { answer, problemContainer, options } =
+  const { answer, problemContainer, options, query } =
     gameInfoByName.questionGenerator();
+	if (backToBackQuestion(query)) {
+		return askAQuestion()
+	}
+	sessionSaveQuery(query)
   const questionContainer = document.getElementById("question-container");
   questionContainer.innerHTML = "";
   if (question) {
