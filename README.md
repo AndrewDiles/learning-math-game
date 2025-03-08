@@ -16,6 +16,7 @@ Added more features:
 - Multiplication (0 to 5)
 - Addition with larger numbers
 - Subtraction with larger numbers
+- Multiplication ([2-10] x [3-10])
 
 Took just shy of an hour.
 

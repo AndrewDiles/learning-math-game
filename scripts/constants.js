@@ -74,7 +74,7 @@ export const GAME_INFO = {
     },
   },
   "+ fruit": {
-    question: "",
+    question: null,
     optionPatterns: [
       [0, -1, 2, 1],
       [2, 0, -1, 1],
@@ -130,72 +130,8 @@ export const GAME_INFO = {
       };
     },
   },
-  "+ numbers lv1": {
-    question: null,
-    optionPatterns: [
-      [0, -1, 2, 1],
-      [2, 0, -1, 1],
-      [1, -1, 0, 2],
-      [-1, 2, 1, 0],
-    ],
-    questionGenerator: () => {
-      const nameOfGame = "+ numbers lv1";
-      const summand1 = rand(5, 0);
-      const summand2 = rand(5, 0);
-      const operand = "+";
-      const answer = summand1 + summand2;
-      const problemContainer = document.createElement("div");
-      problemContainer.classList.add("centered");
-      problemContainer.innerText = `${summand1} ${operand} ${summand2} = ?`;
-
-      const optionPattern =
-        GAME_INFO[nameOfGame].optionPatterns[
-          rand(GAME_INFO[nameOfGame].optionPatterns.length - 1)
-        ];
-      const options = optionPattern.map((modifier) => {
-        return answer + modifier >= 0 ? answer + modifier : 3;
-      });
-      return {
-        answer,
-        problemContainer,
-        options,
-        query: summand1 + operand + summand2,
-      };
-    },
-  },
-  "+ numbers lv2": {
-    question: null,
-    optionPatterns: [
-      [0, -1, 2, 1],
-      [2, 0, -1, 1],
-      [1, -1, 0, 2],
-      [-1, 2, 1, 0],
-    ],
-    questionGenerator: () => {
-      const nameOfGame = "+ numbers lv2";
-      const summand1 = rand(10, 6);
-      const summand2 = rand(10, 1);
-      const operand = "+";
-      const answer = summand1 + summand2;
-      const problemContainer = document.createElement("div");
-      problemContainer.classList.add("centered");
-      problemContainer.innerText = `${summand1} ${operand} ${summand2} = ?`;
-
-      const optionPattern =
-        GAME_INFO[nameOfGame].optionPatterns[
-          rand(GAME_INFO[nameOfGame].optionPatterns.length - 1)
-        ];
-      const options = optionPattern.map((modifier) => answer + modifier);
-      return {
-        answer,
-        problemContainer,
-        options,
-        query: summand1 + operand + summand2,
-      };
-    },
-  },
   "- fruit": {
-    question: "",
+    question: null,
     optionPatterns: [
       [0, 1, -2, -1],
       [-2, 0, 1, -1],
@@ -274,6 +210,70 @@ export const GAME_INFO = {
       };
     },
   },
+  "+ numbers lv1": {
+    question: null,
+    optionPatterns: [
+      [0, -1, 2, 1],
+      [2, 0, -1, 1],
+      [1, -1, 0, 2],
+      [-1, 2, 1, 0],
+    ],
+    questionGenerator: () => {
+      const nameOfGame = "+ numbers lv1";
+      const summand1 = rand(5, 0);
+      const summand2 = rand(5, 0);
+      const operand = "+";
+      const answer = summand1 + summand2;
+      const problemContainer = document.createElement("p");
+      problemContainer.classList.add("centered");
+      problemContainer.innerText = `${summand1} ${operand} ${summand2} = ?`;
+
+      const optionPattern =
+        GAME_INFO[nameOfGame].optionPatterns[
+          rand(GAME_INFO[nameOfGame].optionPatterns.length - 1)
+        ];
+      const options = optionPattern.map((modifier) => {
+        return answer + modifier >= 0 ? answer + modifier : 3;
+      });
+      return {
+        answer,
+        problemContainer,
+        options,
+        query: summand1 + operand + summand2,
+      };
+    },
+  },
+  "+ numbers lv2": {
+    question: null,
+    optionPatterns: [
+      [0, -1, 2, 1],
+      [2, 0, -1, 1],
+      [1, -1, 0, 2],
+      [-1, 2, 1, 0],
+    ],
+    questionGenerator: () => {
+      const nameOfGame = "+ numbers lv2";
+      const summand1 = rand(10, 6);
+      const summand2 = rand(10, 1);
+      const operand = "+";
+      const answer = summand1 + summand2;
+      const problemContainer = document.createElement("p");
+      problemContainer.classList.add("centered");
+      problemContainer.innerText = `${summand1} ${operand} ${summand2} = ?`;
+
+      const optionPattern =
+        GAME_INFO[nameOfGame].optionPatterns[
+          rand(GAME_INFO[nameOfGame].optionPatterns.length - 1)
+        ];
+      const options = optionPattern.map((modifier) => answer + modifier);
+      return {
+        answer,
+        problemContainer,
+        options,
+        query: summand1 + operand + summand2,
+      };
+    },
+  },
   "- numbers lv1": {
     question: null,
     optionPatterns: [
@@ -288,7 +288,7 @@ export const GAME_INFO = {
       const reduction = rand(initial, 0) || rand(initial, 0); // twice to make it less likely to get 0
       const answer = initial - reduction;
       const operand = "-";
-      const problemContainer = document.createElement("div");
+      const problemContainer = document.createElement("p");
       problemContainer.classList.add("centered");
       problemContainer.innerText = `${initial} ${operand} ${reduction} = ?`;
 
@@ -321,7 +321,7 @@ export const GAME_INFO = {
       const reduction = rand(10, 2);
       const answer = initial - reduction;
       const operand = "-";
-      const problemContainer = document.createElement("div");
+      const problemContainer = document.createElement("p");
       problemContainer.classList.add("centered");
       problemContainer.innerText = `${initial} ${operand} ${reduction} = ?`;
 
@@ -338,7 +338,7 @@ export const GAME_INFO = {
       };
     },
   },
-	"x numbers lv1": {
+  "x numbers lv1": {
     question: "how many dots",
     optionPatterns: [
       [0, -1, "one", 1],
@@ -348,58 +348,87 @@ export const GAME_INFO = {
     ],
     questionGenerator: () => {
       const nameOfGame = "x numbers lv1";
-      const multiplicand = rand(5, 1);
-      const multiplier = rand(5, 1);
+      let multiplicand = rand(5, 1);
+      let multiplier = rand(5, 1);
       const operand = "x";
       const answer = multiplicand * multiplier;
       const problemContainer = document.createElement("div");
       problemContainer.classList.add("problem");
-      problemContainer.style.gridTemplateColumns = `repeat(${multiplicand + 1}, 1.5rem)`;
-			for (let row = 1; row <= multiplier+1; row++) {
-				for (let col = 1; col <= multiplicand+1; col++) {
-					const newCell = document.createElement("span");
-					newCell.classList.add("centered");
-					if (row===1 && col===1) {
-						newCell.innerText = "✕";
-					} else if (row === 1) {
-						newCell.classList.add("bottom-wall");
-						const targetCol = Math.round((multiplicand+1)/2)+1;
-						if (col ===targetCol) {
-							newCell.innerText = multiplicand;
-						}
-					} else if (col === 1) {
-						newCell.classList.add("right-wall");
-						const targetRow = Math.round((multiplier+1)/2)+1;
-						if (row === targetRow) {
-							newCell.innerText = multiplier;
-						}
-					} else {
-						// newCell.classList.add("inner-dot")
-						newCell.innerText="•"
-					}
-					problemContainer.appendChild(newCell)
-				}
-			}
+      problemContainer.style.gridTemplateColumns = `repeat(${Math.max(
+        multiplicand,
+        multiplier
+      )}, 1fr)`;
+
+      const equation = document.createElement("p");
+      equation.classList.add("centered");
+      equation.innerText = `${multiplicand} ${operand} ${multiplier} = ?`;
+      equation.classList.add("full-width");
+      problemContainer.appendChild(equation);
+
+      for (let row = 1; row <= multiplier; row++) {
+        for (let col = 1; col <= multiplicand; col++) {
+          const newCell = document.createElement("span");
+          newCell.classList.add("centered");
+          newCell.innerText = "•";
+          problemContainer.appendChild(newCell);
+        }
+      }
       const optionPattern =
         GAME_INFO[nameOfGame].optionPatterns[
           rand(GAME_INFO[nameOfGame].optionPatterns.length - 1)
         ];
       const options = optionPattern.map((modifier) => {
-				if (modifier === "one") {
-					if (multiplicand === 1 || multiplier === 1) {
-						if (multiplicand ===1 && multiplier ===1 ) {
-							return 3
-						} else if (multiplicand < 4 || multiplier < 4) {
-						return answer + 4
-						} else {
-							return answer + 1
-						}
-					} else {
-						return answer - 1;
-					}
-				}
-				return answer + (modifier * Math.min(multiplier, multiplicand))
-			});
+        if (modifier === "one") {
+          if (multiplicand === 1 || multiplier === 1) {
+            if (multiplicand === 1 && multiplier === 1) {
+              return 3;
+            } else if (multiplicand < 4 || multiplier < 4) {
+              return answer + 4;
+            } else {
+              return answer + 1;
+            }
+          } else {
+            return answer - 1;
+          }
+        }
+        return answer + modifier * Math.min(multiplier, multiplicand);
+      });
+      return {
+        answer,
+        problemContainer,
+        options,
+        query: multiplicand + operand + multiplier,
+      };
+    },
+  },
+  "x numbers lv2": {
+    question: null,
+    optionPatterns: [
+      [0, -1, "one", 1],
+      [1, 0, -1, "one"],
+      ["one", -1, 0, 1],
+      [-1, 1, "one", 0],
+    ],
+    questionGenerator: () => {
+      const nameOfGame = "x numbers lv2";
+      let multiplicand = rand(10, 2);
+      let multiplier = rand(10, 3);
+      const operand = "x";
+      const answer = multiplicand * multiplier;
+      const problemContainer = document.createElement("p");
+      problemContainer.classList.add("problem");
+      problemContainer.innerText = `${multiplicand} ${operand} ${multiplier} = ?`;
+
+      const optionPattern =
+        GAME_INFO[nameOfGame].optionPatterns[
+          rand(GAME_INFO[nameOfGame].optionPatterns.length - 1)
+        ];
+      const options = optionPattern.map((modifier) =>
+        modifier === "one"
+          ? answer - 1
+          : answer +
+            modifier * (Math.random() > 0.5 ? multiplier : multiplicand)
+      );
       return {
         answer,
         problemContainer,
