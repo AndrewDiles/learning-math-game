@@ -88,6 +88,10 @@ nav a {
 	);
 }
 
+.full-width {
+	grid-column: 1 / -1;
+}
+
 .correct {
 	color: lime;
 }
@@ -194,18 +198,6 @@ button.exit-button:active {
 
 .growing {
 	animation: growing 2s infinite;
-}
-
-.problem span.bottom-wall {
-	border-bottom: .1rem solid black;
-	margin: .25rem 0;
-	padding: 0 .25rem;
-}
-
-.problem span.right-wall {
-	border-right: .1rem solid black;
-	margin: 0 .25rem;
-	padding: .25rem 0;
 }
 
 
