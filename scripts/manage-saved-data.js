@@ -1,8 +1,12 @@
-import { GAME_NAMES, STORAGE_KEY } from "./constants.js";
+import { GAME_NAMES, STORAGE_KEY, TEMP_STORAGE_KEY } from "./constants.js";
 
 export const saveGame = (gameData) => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(gameData));
 };
+
+export const sessionSaveQuery = (query) => {
+	window.sessionStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(query));
+}
 
 export const updateSaveGame = () => {
   const save = window.localStorage.getItem(STORAGE_KEY);
