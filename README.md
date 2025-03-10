@@ -58,15 +58,15 @@ Includes 5 build in modes of play:
 
 ## Stretch Goals:
 - sound effects
-- keyboard functionality
+- ~~keyboard functionality~~
 - save slots
 - cross device CSS improvements
-- more encouraging visual feedback
+- ~~more encouraging visual feedback~~
 
 ### Stretch Topics:
-- multiplication
+- ~~multiplication~~
 - division
-- addition with larger numbers
-- subtraction with larger numbers
+- ~~addition with larger numbers~~
+- ~~subtraction with larger numbers~~
 - subtraction into negatives
 - inequalities
