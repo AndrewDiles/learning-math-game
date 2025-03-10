@@ -10,7 +10,7 @@ I built build a better one in a few hours.
 
 ---
 
-## Version 1.2.2 Notes:
+## Version 1.2.1 Notes:
 
 Added:
 
