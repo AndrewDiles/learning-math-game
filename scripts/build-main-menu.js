@@ -1,5 +1,6 @@
 import initializeSave from "./manage-saved-data.js";
 import launchGame from "./launch-game.js";
+import focusIfNeeded from "./focusIfNeeded.js";
 
 const createStar = (obtained)=>{
 	const newStar = document.createElement("img");
@@ -37,6 +38,7 @@ const buildMainMenu = () => {
 	const nav = document.querySelector("nav");
 	const navButtons = save.map(makeMenuItem);
 	navButtons.forEach(button => nav.appendChild(button))
+	focusIfNeeded(".menu-button");
 }
 
 export default buildMainMenu
