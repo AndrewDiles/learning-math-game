@@ -39,6 +39,14 @@ button:disabled {
 	opacity: .75;
 	scale: .9;
 }
+button:focus-visible{
+	border-color: blue;
+	scale: 1.05;
+}
+button.exit-button:focus-visible {
+	border-color: orangered;
+	outline-color: blue;
+}
 button:hover:not(:disabled) {
 	border-color: lime;
 	scale: 1.1;
