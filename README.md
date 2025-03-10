@@ -10,9 +10,18 @@ I built build a better one in a few hours.
 
 ---
 
+## Version 1.2.1 Notes:
+
+Added:
+
+- math equation above fruit addition/subtraction games.
+- console Easter egg
+
+---
+
 ## Version 1.2 Notes:
 
-Intended feature to add
+Features added:
 
 - Keyboard navigation
 - Don't have later levels appear unless former level beaten
@@ -49,15 +58,15 @@ Includes 5 build in modes of play:
 
 ## Stretch Goals:
 - sound effects
-- keyboard functionality
+- ~~keyboard functionality~~
 - save slots
 - cross device CSS improvements
-- more encouraging visual feedback
+- ~~more encouraging visual feedback~~
 
 ### Stretch Topics:
-- multiplication
+- ~~multiplication~~
 - division
-- addition with larger numbers
-- subtraction with larger numbers
+- ~~addition with larger numbers~~
+- ~~subtraction with larger numbers~~
 - subtraction into negatives
 - inequalities
