@@ -90,7 +90,11 @@ export const GAME_INFO = {
       const problemContainer = document.createElement("div");
       problemContainer.classList.add("problem");
       problemContainer.style.gridTemplateColumns = `repeat(5, 2rem)`;
-
+			const equation = document.createElement("p");
+      equation.classList.add("centered");
+      equation.innerText = `${summand1} ${operand} ${summand2} = ?`;
+      equation.classList.add("full-width");
+      problemContainer.appendChild(equation);
       for (let fruitNumber = 0; fruitNumber < 5; fruitNumber++) {
         const newCell = document.createElement("span");
         if (fruitNumber < summand1) {
@@ -143,12 +147,15 @@ export const GAME_INFO = {
       const initial = rand(10, 2);
       const reduction = rand(initial, 1);
       const answer = initial - reduction;
-      console.log(initial, reduction, answer);
-
       const operand = "-";
       const problemContainer = document.createElement("div");
       problemContainer.classList.add("problem");
       problemContainer.style.gridTemplateColumns = `repeat(5, 2rem)`;
+			const equation = document.createElement("p");
+      equation.classList.add("centered");
+      equation.innerText = `${initial} ${operand} ${reduction} = ?`;
+      equation.classList.add("full-width");
+      problemContainer.appendChild(equation);
       for (let fruitNumber = 0; fruitNumber < 5; fruitNumber++) {
         const newCell = document.createElement("span");
         if (fruitNumber < initial) {
@@ -179,7 +186,7 @@ export const GAME_INFO = {
       for (let fruitNumber = 0; fruitNumber < 5; fruitNumber++) {
         const newCell = document.createElement("span");
         if (fruitNumber < reduction) {
-          newCell.innerText = problemContainer.children[fruitNumber].innerText;
+          newCell.innerText = problemContainer.children[fruitNumber+1].innerText;
           newCell.classList.add("centered");
         }
         problemContainer.appendChild(newCell);
@@ -189,7 +196,7 @@ export const GAME_INFO = {
           const newCell = document.createElement("span");
           if (fruitNumber < reduction) {
             newCell.innerText =
-              problemContainer.children[fruitNumber].innerText;
+              problemContainer.children[fruitNumber+1].innerText;
             newCell.classList.add("centered");
           }
           problemContainer.appendChild(newCell);

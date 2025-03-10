@@ -10,9 +10,18 @@ I built build a better one in a few hours.
 
 ---
 
+## Version 1.2.2 Notes:
+
+Added:
+
+- math equation above fruit addition/subtraction games.
+- console Easter egg
+
+---
+
 ## Version 1.2 Notes:
 
-Intended feature to add
+Features added:
 
 - Keyboard navigation
 - Don't have later levels appear unless former level beaten
