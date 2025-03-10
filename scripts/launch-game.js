@@ -2,6 +2,7 @@ import backToBackQuestion from "./back-to-back-question.js";
 import buildMainMenu from "./build-main-menu.js";
 import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "./constants.js";
 import { sessionSaveQuery, updateSaveGame } from "./manage-saved-data.js";
+import focusIfNeeded from "./focusIfNeeded.js";
 
 const createExitButton = () => {
   const exitButton = document.createElement("button");
@@ -97,7 +98,7 @@ const createLifeTracker = () => {
 const createAnswers = (questionContainer, options, answer) => {
 	const optionsContainer = document.createElement("div");
   optionsContainer.classList.add("options");
-  options.forEach((option) => {
+  options.forEach((option, index) => {
     const answerButton = document.createElement("button");
     answerButton.type = "button";
     answerButton.classList.add("answer-button");
@@ -117,10 +118,12 @@ const createAnswers = (questionContainer, options, answer) => {
           questionContainer.appendChild(createTryAgainButton(true));
           questionContainer.appendChild(createReturnToMenuButton());
           document.querySelector(".exit-button").remove();
+					focusIfNeeded(".menu-button")
           updateSaveGame();
         } else {
           // continue game
           questionContainer.appendChild(createNextQuestionButton(stepComplete));
+					focusIfNeeded(".menu-button:not(.exit-button)");
         }
       } else {
         // incorrect answer
@@ -144,8 +147,11 @@ const createAnswers = (questionContainer, options, answer) => {
             questionContainer.prepend(queryMessage);
           }
           questionContainer.appendChild(createTryAgainButton());
+					focusIfNeeded(".menu-button:not(.exit-button)");
           questionContainer.appendChild(createReturnToMenuButton());
-        }
+        } else {
+					focusIfNeeded(".answer-button:not(:disabled)");
+				}
       }
     });
     optionsContainer.appendChild(answerButton);
@@ -224,7 +230,8 @@ const askAQuestion = () => {
     questionContainer.appendChild(query);
   }
   questionContainer.appendChild(problemContainer);
-	questionContainer.appendChild(createAnswers(questionContainer, options, answer))
+	questionContainer.appendChild(createAnswers(questionContainer, options, answer));
+	focusIfNeeded(".answer-button");
 };
 
 const launchGame = (gameName = heading.innerText) => {

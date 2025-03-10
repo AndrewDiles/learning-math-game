@@ -8,6 +8,15 @@ I believe I can build a better one in a few hours.
 
 ---
 
+## Version 1.2 Notes:
+
+Intended feature to add
+
+- Keyboard navigation
+- Don't have later levels appear unless former level beaten
+
+---
+
 ## Version 1.1 Notes:
 
 Added more features:
