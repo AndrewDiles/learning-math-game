@@ -4,7 +4,9 @@ My son played a simple math game at the library.
 
 It was very limited and there were a few points of confusion in it.
 
-I believe I can build a better one in a few hours.
+I built build a better one in a few hours.
+
+[Play Now](https://andrewdiles.github.io/learning-math-game/)
 
 ---
 
