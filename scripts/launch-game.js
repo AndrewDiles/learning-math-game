@@ -1,7 +1,10 @@
-import backToBackQuestion from "./back-to-back-question.js";
 import buildMainMenu from "./build-main-menu.js";
 import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "./constants.js";
-import { sessionSaveQuery, updateSaveGame } from "./manage-saved-data.js";
+import {
+  sessionSaveQuery,
+  updateSaveGame,
+  backToBackQuestion,
+} from "./manage-saved-data.js";
 import focusIfNeeded from "./focusIfNeeded.js";
 
 const createExitButton = () => {
@@ -42,7 +45,7 @@ const createNextQuestionButton = (stepComplete) => {
   nextQuestionButton.addEventListener("click", () => {
     const nextStepButton = document.getElementById(`step-${stepComplete + 1}`);
     nextStepButton.classList.add("blinking");
-    nextStepButton.innerText = "◌";
+    nextStepButton.innerText = "●";
     askAQuestion();
   });
   return nextQuestionButton;
@@ -56,6 +59,10 @@ const createCorrectMessage = (correctValue) => {
   correctMessage.appendChild(correctContent);
   const correctMessageText = document.createTextNode(" is correct!");
   correctMessage.appendChild(correctMessageText);
+  const foundQuery = document.querySelector("p.centered");
+  if (foundQuery && foundQuery.innerText.includes("?")) {
+    foundQuery.innerText = foundQuery.innerText.slice(0, -1) + correctValue;
+  }
   return correctMessage;
 };
 
@@ -66,7 +73,7 @@ const createProgressTracker = () => {
   progressContainer.classList.add("progress");
   for (let i = 1; i <= MAX_STEPS; i++) {
     const step = document.createElement("span");
-    step.innerText = i === 1 ? "◌" : "○";
+    step.innerText = i === 1 ? "●" : "○";
     step.classList.add("centered");
     if (i === 1) {
       step.classList.add("blinking");
@@ -95,8 +102,56 @@ const createLifeTracker = () => {
   main.appendChild(lifeContainer);
 };
 
+const disableAnswersAtGameOver = (answer) => {
+  document.querySelectorAll(".answer-button").forEach((button) => {
+    button.disabled = true;
+    if (button.innerText == answer) {
+      button.classList.add("correct");
+    }
+  });
+};
+
+const oopsMessage = (questionContainer) => {
+  const queryMessage = document.querySelector("h3");
+  if (queryMessage) {
+    queryMessage.innerText = "oops";
+  } else {
+    const queryMessage = document.createElement("h3");
+    queryMessage.innerText = "oops";
+    questionContainer.prepend(queryMessage);
+  }
+};
+
+const stopBlinkingTracker = () => {
+  const blinking = document.querySelector(".blinking");
+  if (blinking) {
+    blinking.style.color = "black";
+    blinking.classList.remove("blinking");
+  }
+};
+
+const gameOver = (answer, questionContainer) => {
+  disableAnswersAtGameOver(answer);
+  oopsMessage(questionContainer);
+  stopBlinkingTracker();
+  questionContainer.appendChild(createTryAgainButton());
+  focusIfNeeded(".menu-button:not(.exit-button)");
+  questionContainer.appendChild(createReturnToMenuButton());
+};
+
+const winGame = (questionContainer) => {
+  removeQuestion();
+  convertHeartsToStars();
+  questionContainer.appendChild(createWinMessage());
+  questionContainer.appendChild(createTryAgainButton(true));
+  questionContainer.appendChild(createReturnToMenuButton());
+  document.querySelector(".exit-button").remove();
+  focusIfNeeded(".menu-button");
+  updateSaveGame();
+};
+
 const createAnswers = (questionContainer, options, answer) => {
-	const optionsContainer = document.createElement("div");
+  const optionsContainer = document.createElement("div");
   optionsContainer.classList.add("options");
   options.forEach((option, index) => {
     const answerButton = document.createElement("button");
@@ -104,26 +159,18 @@ const createAnswers = (questionContainer, options, answer) => {
     answerButton.classList.add("answer-button");
     answerButton.innerText = option;
     answerButton.addEventListener("click", () => {
-			// attempt at answering question from user
+      // attempt at answering question from user
       if (option === answer) {
         // correct answer
         optionsContainer.remove();
         const stepComplete = manageProgressAndGetStep();
         questionContainer.appendChild(createCorrectMessage(option));
         if (stepComplete === MAX_STEPS) {
-          // game won
-          removeQuestion();
-          convertHeartsToStars();
-          questionContainer.appendChild(createWinMessage());
-          questionContainer.appendChild(createTryAgainButton(true));
-          questionContainer.appendChild(createReturnToMenuButton());
-          document.querySelector(".exit-button").remove();
-					focusIfNeeded(".menu-button")
-          updateSaveGame();
+          winGame(questionContainer);
         } else {
           // continue game
           questionContainer.appendChild(createNextQuestionButton(stepComplete));
-					focusIfNeeded(".menu-button:not(.exit-button)");
+          focusIfNeeded(".menu-button:not(.exit-button)");
         }
       } else {
         // incorrect answer
@@ -131,33 +178,16 @@ const createAnswers = (questionContainer, options, answer) => {
         answerButton.disabled = true;
         takeAwayLife(lives);
         if (lives.length === 1) {
-          // game over
-          document.querySelectorAll(".answer-button").forEach((button) => {
-            button.disabled = true;
-            if (button.innerText == answer) {
-              button.classList.add("correct");
-            }
-          });
-          const queryMessage = document.querySelector("h3");
-          if (queryMessage) {
-            queryMessage.innerText = "oops";
-          } else {
-            const queryMessage = document.createElement("h3");
-            queryMessage.innerText = "oops";
-            questionContainer.prepend(queryMessage);
-          }
-          questionContainer.appendChild(createTryAgainButton());
-					focusIfNeeded(".menu-button:not(.exit-button)");
-          questionContainer.appendChild(createReturnToMenuButton());
+          gameOver(answer, questionContainer);
         } else {
-					focusIfNeeded(".answer-button:not(:disabled)");
-				}
+          focusIfNeeded(".answer-button:not(:disabled)");
+        }
       }
     });
     optionsContainer.appendChild(answerButton);
   });
-	return optionsContainer
-}
+  return optionsContainer;
+};
 
 const takeAwayLife = (lives) => {
   const lifeToChange = lives[lives.length - 1];
@@ -194,6 +224,7 @@ const createWinMessage = () => {
     const letterSpan = document.createElement("span");
     letterSpan.innerText = letter;
     letterSpan.classList.add("rainbow-color");
+		letterSpan.classList.add("correct");
     letterSpan.style.animationDelay = `${-200 * index}ms`;
     winMessage.appendChild(letterSpan);
   });
@@ -218,10 +249,10 @@ const askAQuestion = () => {
   const { question } = gameInfoByName;
   const { answer, problemContainer, options, query } =
     gameInfoByName.questionGenerator();
-	if (backToBackQuestion(query)) {
-		return askAQuestion()
-	}
-	sessionSaveQuery(query)
+  if (backToBackQuestion(query)) {
+    return askAQuestion();
+  }
+  sessionSaveQuery(query);
   const questionContainer = document.getElementById("question-container");
   questionContainer.innerHTML = "";
   if (question) {
@@ -230,8 +261,10 @@ const askAQuestion = () => {
     questionContainer.appendChild(query);
   }
   questionContainer.appendChild(problemContainer);
-	questionContainer.appendChild(createAnswers(questionContainer, options, answer));
-	focusIfNeeded(".answer-button");
+  questionContainer.appendChild(
+    createAnswers(questionContainer, options, answer)
+  );
+  focusIfNeeded(".answer-button");
 };
 
 const launchGame = (gameName = heading.innerText) => {
