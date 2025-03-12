@@ -1,6 +1,6 @@
 const enableKeyboardNavigation = () => {
   window.addEventListener("keydown", (ev) => {
-		const { code } = ev;
+    const { code } = ev;
     // prevent scrolling
     if (code === "ArrowDown" || code === "ArrowUp") {
       ev.preventDefault();
@@ -27,11 +27,11 @@ const enableKeyboardNavigation = () => {
     });
     // if not focused or on exit, focus first button
     if (indexOfCurrentFocus === null) {
-			if (document.querySelector(".exit-button")) {
-				return buttons[1].focus();
-			} else {
-				return buttons[0].focus();
-			}
+      if (document.querySelector(".exit-button")) {
+        return buttons[1].focus();
+      } else {
+        return buttons[0].focus();
+      }
     }
 
     if (buttons.length === 2) {
@@ -61,28 +61,68 @@ const enableKeyboardNavigation = () => {
       const up = code === "ArrowUp" || code === "KeyW";
       const down = code === "ArrowDown" || code === "KeyS";
       // go to 2 if: L/R of 1 || U of 4
-      if (
-        (indexOfCurrentFocus === 1 && (left || right)) ||
-        (up && indexOfCurrentFocus === 4)
-      ) {
-        return buttons[2].focus();
+      if (up && indexOfCurrentFocus === 4) {
+				if (!buttons[2].disabled) return buttons[2].focus();
+				if (!buttons[1].disabled) return buttons[1].focus();
+				return buttons[0].focus();
+      }
+      if (indexOfCurrentFocus === 1 && (left || right)) {
+        if (!buttons[2].disabled) return buttons[2].focus();
+				return buttons[0].focus();
       }
       // go to 3 if: L/R of 4 || D of 1
+			if(down && indexOfCurrentFocus === 1) {
+				if (!buttons[3].disabled) return buttons[3].focus();
+				if (!buttons[4].disabled) return buttons[4].focus();
+				return buttons[0].focus();
+			}
       if (
-        (indexOfCurrentFocus === 4 && (left || right)) ||
-        (down && indexOfCurrentFocus === 1)
+        (indexOfCurrentFocus === 4 && (left || right))
       ) {
-        return buttons[3].focus();
+        if (!buttons[3].disabled) return buttons[3].focus();
+				return buttons[0].focus();
       }
       // go to 4 if: L/R of 3 || D of 2
+			if (down && indexOfCurrentFocus === 2) {
+				if (!buttons[4].disabled) return buttons[4].focus();
+				if (!buttons[3].disabled) return buttons[3].focus();
+				return buttons[0].focus();
+			}
       if (
-        (indexOfCurrentFocus === 3 && (left || right)) ||
-        (down && indexOfCurrentFocus === 2)
+        (indexOfCurrentFocus === 3 && (left || right))
       ) {
-        return buttons[4].focus();
+        if (!buttons[4].disabled) return buttons[4].focus();
+				return buttons[0].focus();
       }
-      // otherwise go to 1
-      return buttons[1].focus();
+      // go to 1 if: L/R of 2 || U of 3
+			if (up && indexOfCurrentFocus === 3) {
+				if (!buttons[1].disabled) return buttons[1].focus();
+				if (!buttons[2].disabled) return buttons[2].focus();
+				return buttons[0].focus();
+			}
+      if (
+        (indexOfCurrentFocus === 2 && (left || right))
+      ) {
+        if (!buttons[1].disabled) return buttons[1].focus();
+				return buttons[0].focus();
+      }
+			if (indexOfCurrentFocus === 0 && up) {
+				const nonDisabledAnswers = document.querySelectorAll(
+          ".answer-button:not(:disabled)"
+        );
+				const lastAvailableAnswerButton = nonDisabledAnswers[nonDisabledAnswers.length-1]
+				if (lastAvailableAnswerButton) {
+          return lastAvailableAnswerButton.focus();
+        }
+			}
+			// otherwise take next available
+        const availableAnswerButton = document.querySelector(
+          ".answer-button:not(:disabled)"
+        );
+        if (availableAnswerButton) {
+          availableAnswerButton.focus();
+        }
+        return
     }
     // end of game or main menu
     const goingUp =
