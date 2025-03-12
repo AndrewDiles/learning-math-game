@@ -1,4 +1,4 @@
-import initializeSave from "./manage-saved-data.js";
+import initializeSave, {storagePossible} from "./manage-saved-data.js";
 import launchGame from "./launch-game.js";
 import focusIfNeeded from "./focusIfNeeded.js";
 
@@ -24,8 +24,10 @@ const makeMenuItem = ({level, name, best}) => {
 	menuItem.appendChild(newOption)
 	const starContainer = document.createElement("div");
 	starContainer.classList.add("centered");
-	for (let starNumber = 0; starNumber < 3; starNumber++) {
-		starContainer.appendChild(createStar(starNumber<best))
+	if (storagePossible) {
+		for (let starNumber = 0; starNumber < 3; starNumber++) {
+			starContainer.appendChild(createStar(starNumber<best))
+		}
 	}
 	menuItem.appendChild(starContainer);
 	return menuItem

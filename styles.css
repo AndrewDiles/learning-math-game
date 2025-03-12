@@ -36,7 +36,7 @@ button:disabled {
 	cursor: not-allowed;
 	border-color: transparent;
 	color: orangered;
-	opacity: .75;
+	opacity: .65;
 	scale: .9;
 }
 button:focus-visible{
@@ -100,12 +100,15 @@ nav a {
 	grid-column: 1 / -1;
 }
 
-.correct {
+.correct, button.correct:disabled {
 	color: lime;
+	opacity: 1;
+	text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000;
 }
 
 .blinking {
-	animation: fading 1.5s ease-in-out infinite
+	animation: fading 1.5s ease-in-out infinite;
+	color: white;
 }
 
 /* === SPECIFIC CLASS RULES === */
@@ -200,7 +203,6 @@ button.exit-button:active {
 }
 
 .rainbow-color {
-	color: lime;
 	animation: hueShift 2s infinite;
 }
 

@@ -10,6 +10,15 @@ I built build a better one in a few hours.
 
 ---
 
+## Version 1.2.2 Notes:
+
+- Application now functional if `localStorage` is disabled or unavailable.
+- Completes equation when correctly answered.
+- Improved appearance of correct text.
+- Corrected keyboard navigation while buttons are disabled.
+
+---
+
 ## Version 1.2.1 Notes:
 
 Added:
@@ -46,7 +55,7 @@ Took just shy of an hour.
 
 Game is functional after about five hours. Took about another two making small tweaks.
 
-Includes 5 build in modes of play:
+Includes 5 built in modes of play:
 
 - counting fruit
 - addition with fruit

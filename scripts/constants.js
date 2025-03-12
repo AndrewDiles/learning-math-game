@@ -8,16 +8,15 @@ export const MAX_STEPS = 10;
 
 export const RAINBOW_COLORS = [
   "#FF0000",
-  "#FF4500",
   "#FF7F00",
   "#FFBF00",
   "#FFFF00",
-  "#80FF00",
-  "#00FF00",
-  "#008080",
+  "#ADFF2F",
+	"#32CD32",
+  "#0080BF",
   "#0000FF",
+	"#9400D3",
   "#4B0082",
-  "#8B00FF",
 ];
 
 const fruit = [
