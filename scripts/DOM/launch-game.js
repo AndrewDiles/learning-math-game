@@ -1,5 +1,6 @@
 import buildMainMenu from "./build-main-menu.js";
-import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "../data/constants.js";
+import { RAINBOW_COLORS, MAX_STEPS } from "../data/constants.js";
+import GAME_INFO from "../data/game-info.js";
 import {
   sessionSaveQuery,
   updateSaveGame,
