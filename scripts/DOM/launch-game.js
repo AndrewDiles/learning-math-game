@@ -1,11 +1,11 @@
 import buildMainMenu from "./build-main-menu.js";
-import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "./constants.js";
+import { GAME_INFO, RAINBOW_COLORS, MAX_STEPS } from "../data/constants.js";
 import {
   sessionSaveQuery,
   updateSaveGame,
   backToBackQuestion,
-} from "./manage-saved-data.js";
-import focusIfNeeded from "./focusIfNeeded.js";
+} from "../helpers/manage-saved-data.js";
+import focusIfNeeded from "../helpers/focusIfNeeded.js";
 
 const createExitButton = () => {
   const exitButton = document.createElement("button");
@@ -224,7 +224,7 @@ const createWinMessage = () => {
     const letterSpan = document.createElement("span");
     letterSpan.innerText = letter;
     letterSpan.classList.add("rainbow-color");
-		letterSpan.classList.add("correct");
+    letterSpan.classList.add("correct");
     letterSpan.style.animationDelay = `${-200 * index}ms`;
     winMessage.appendChild(letterSpan);
   });

@@ -1,4 +1,8 @@
-import { GAME_NAMES, STORAGE_KEY, TEMP_STORAGE_KEY } from "./constants.js";
+import {
+  GAME_NAMES,
+  STORAGE_KEY,
+  TEMP_STORAGE_KEY,
+} from "../data/constants.js";
 
 const defaultSavedGame = GAME_NAMES.map((name, level) => ({
   level,

@@ -10,6 +10,13 @@ I built build a better one in a few hours.
 
 ---
 
+## Version 1.3.1 Notes:
+
+- Restructuring codebase
+- Adding fractions
+
+---
+
 ## Version 1.2.3 Notes:
 
 - Improving SEO with `meta` tags.
@@ -85,3 +92,7 @@ Includes 5 built in modes of play:
 - ~~subtraction with larger numbers~~
 - subtraction into negatives
 - inequalities
+
+---
+
+[Repo Link](https://github.com/AndrewDiles/learning-math-game)

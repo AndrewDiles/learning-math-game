@@ -1,4 +1,5 @@
-import rand from "./rand.js";
+import rand from "../helpers/rand.js";
+import getRandomFruit from "../helpers/getRandomFruit.js";
 
 export const STORAGE_KEY = "math-save";
 
@@ -12,14 +13,14 @@ export const RAINBOW_COLORS = [
   "#FFBF00",
   "#FFFF00",
   "#ADFF2F",
-	"#32CD32",
+  "#32CD32",
   "#0080BF",
   "#0000FF",
-	"#9400D3",
+  "#9400D3",
   "#4B0082",
 ];
 
-const fruit = [
+export const fruit = [
   "🍈",
   "🥭",
   "🍍",
@@ -34,8 +35,6 @@ const fruit = [
   "🍏",
   "🍎",
 ];
-
-const getRandomFruit = () => fruit[rand(fruit.length - 1)];
 
 export const GAME_INFO = {
   "1 2 3 fruit": {
@@ -89,7 +88,7 @@ export const GAME_INFO = {
       const problemContainer = document.createElement("div");
       problemContainer.classList.add("problem");
       problemContainer.style.gridTemplateColumns = `repeat(5, 2rem)`;
-			const equation = document.createElement("p");
+      const equation = document.createElement("p");
       equation.classList.add("centered");
       equation.innerText = `${summand1} ${operand} ${summand2} = ?`;
       equation.classList.add("full-width");
@@ -150,7 +149,7 @@ export const GAME_INFO = {
       const problemContainer = document.createElement("div");
       problemContainer.classList.add("problem");
       problemContainer.style.gridTemplateColumns = `repeat(5, 2rem)`;
-			const equation = document.createElement("p");
+      const equation = document.createElement("p");
       equation.classList.add("centered");
       equation.innerText = `${initial} ${operand} ${reduction} = ?`;
       equation.classList.add("full-width");
@@ -185,7 +184,8 @@ export const GAME_INFO = {
       for (let fruitNumber = 0; fruitNumber < 5; fruitNumber++) {
         const newCell = document.createElement("span");
         if (fruitNumber < reduction) {
-          newCell.innerText = problemContainer.children[fruitNumber+1].innerText;
+          newCell.innerText =
+            problemContainer.children[fruitNumber + 1].innerText;
           newCell.classList.add("centered");
         }
         problemContainer.appendChild(newCell);
@@ -195,7 +195,7 @@ export const GAME_INFO = {
           const newCell = document.createElement("span");
           if (fruitNumber < reduction) {
             newCell.innerText =
-              problemContainer.children[fruitNumber+1].innerText;
+              problemContainer.children[fruitNumber + 1].innerText;
             newCell.classList.add("centered");
           }
           problemContainer.appendChild(newCell);
