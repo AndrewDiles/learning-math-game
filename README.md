@@ -10,6 +10,12 @@ I built build a better one in a few hours.
 
 ---
 
+## Version 1.2.3 Notes:
+
+- Improving SEO with `meta` tags.
+
+---
+
 ## Version 1.2.2 Notes:
 
 - Application now functional if `localStorage` is disabled or unavailable.
