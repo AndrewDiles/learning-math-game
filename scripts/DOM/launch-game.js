@@ -151,7 +151,7 @@ const winGame = (questionContainer) => {
   updateSaveGame();
 };
 
-const createAnswers = (questionContainer, options, answer) => {
+const createAnswers = (questionContainer, options, answer, clarification) => {
   const optionsContainer = document.createElement("div");
   optionsContainer.classList.add("options");
   options.forEach((option, index) => {
@@ -166,6 +166,9 @@ const createAnswers = (questionContainer, options, answer) => {
         optionsContainer.remove();
         const stepComplete = manageProgressAndGetStep();
         questionContainer.appendChild(createCorrectMessage(option));
+				if (clarification) {
+					questionContainer.appendChild(clarification);
+				}
         if (stepComplete === MAX_STEPS) {
           winGame(questionContainer);
         } else {
@@ -245,10 +248,10 @@ const convertHeartsToStars = () => {
 };
 
 const askAQuestion = () => {
-  const gameName = heading.innerText;
+  const gameName = heading.innerText;	
   const gameInfoByName = GAME_INFO[gameName];
   const { question } = gameInfoByName;
-  const { answer, problemContainer, options, query } =
+  const { answer, problemContainer, options, query, clarification } =
     gameInfoByName.questionGenerator();
   if (backToBackQuestion(query)) {
     return askAQuestion();
@@ -263,7 +266,7 @@ const askAQuestion = () => {
   }
   questionContainer.appendChild(problemContainer);
   questionContainer.appendChild(
-    createAnswers(questionContainer, options, answer)
+    createAnswers(questionContainer, options, answer, clarification)
   );
   focusIfNeeded(".answer-button");
 };
