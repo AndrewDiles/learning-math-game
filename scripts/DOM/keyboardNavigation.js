@@ -1,3 +1,14 @@
+const selectionCodesRespondedTo = [
+  "ArrowUp",
+  "ArrowLeft",
+  "ArrowDown",
+  "ArrowRight",
+  "KeyW",
+  "KeyA",
+  "KeyS",
+  "KeyD",
+];
+
 const enableKeyboardNavigation = () => {
   window.addEventListener("keydown", (ev) => {
     const { code } = ev;
@@ -141,14 +152,3 @@ const enableKeyboardNavigation = () => {
 };
 
 export default enableKeyboardNavigation;
-
-const selectionCodesRespondedTo = [
-  "ArrowUp",
-  "ArrowLeft",
-  "ArrowDown",
-  "ArrowRight",
-  "KeyW",
-  "KeyA",
-  "KeyS",
-  "KeyD",
-];
