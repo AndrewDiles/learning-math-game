@@ -1,7 +1,8 @@
 // + fractions lv1
 import rand from "../../helpers/rand.js";
 
-import { RAINBOW_COLORS } from "../constants.js";
+import { SCATTERED_COLORS } from "../constants.js";
+
 
 import {
   makeCircle,
@@ -68,7 +69,7 @@ const level = {
     for (let sliceNumber = 1; sliceNumber <= answer; sliceNumber++) {
       addSlice(
         svg,
-        RAINBOW_COLORS[sliceNumber - 1],
+        SCATTERED_COLORS[sliceNumber - 1],
         answerObject.size,
         270 + anglePerSlice * (sliceNumber - 1)
       );
@@ -91,7 +92,7 @@ const level = {
 		const singleSliceContainer = makeCircle();
 		addSlice(
 			singleSliceContainer,
-			RAINBOW_COLORS[0],
+			SCATTERED_COLORS[0],
 			answerObject.size,
 			270
 		);
