@@ -196,9 +196,10 @@ export const addSlice = (
 
   newSlice.setAttribute("stroke", color);
   newSlice.setAttribute("stroke-width", "50");
+	const dashArraySizeOne = percentSize * 157.08 / 100;
   newSlice.setAttribute(
     "stroke-dasharray",
-    `calc(${percentSize} * 157.08 / 100) 157.08`
+    `${dashArraySizeOne} 157.08`
   );
   newSlice.setAttribute("transform-origin", "center");
   let transform = `rotate(${startingAngle})`;

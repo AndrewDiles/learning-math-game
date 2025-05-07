@@ -17,6 +17,19 @@ export const RAINBOW_COLORS = [
   "#4B0082",
 ];
 
+export const SCATTERED_COLORS = [
+	RAINBOW_COLORS[0],
+	RAINBOW_COLORS[7],
+	RAINBOW_COLORS[4],
+	RAINBOW_COLORS[8],
+	RAINBOW_COLORS[3],
+	RAINBOW_COLORS[6],
+	"magenta",
+	RAINBOW_COLORS[5],
+	RAINBOW_COLORS[1],
+	RAINBOW_COLORS[9],
+]
+
 export const fruit = [
   "🍈",
   "🥭",

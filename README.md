@@ -10,6 +10,13 @@ I built build a better one in a few hours.
 
 ---
 
+## Version 1.3.2 Notes:
+
+- Changing colors of fraction slices to make each slice stand out more against adjacent slices
+- Changing `addSlice`'s `stroke-dasharray` from `calc` for Firefox compatibility
+
+---
+
 ## Version 1.3.1 Notes:
 
 - Restructuring codebase
